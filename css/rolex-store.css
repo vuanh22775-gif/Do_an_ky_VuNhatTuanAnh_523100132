@@ -328,7 +328,13 @@ body:not(.page-lux) .product-card {
     display: block;
 }
 
-.card-content { padding: 18px 16px; display: grid; gap: 6px; }
+.card-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 6px;
+    padding: 18px 16px;
+}
 
 .ref   { color: #999999; font-size: 0.8rem; letter-spacing: 0.04em; }
 .price {
@@ -356,6 +362,7 @@ body:not(.page-lux) .price { color: #7ecba8; }
     text-decoration: none;
     text-transform: uppercase;
     transition: background 0.2s, color 0.2s;
+    margin-top: auto;
 }
 .detail-btn:hover,
 .detail-btn:focus-visible { background: #006039; color: #ffffff; }
