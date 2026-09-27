@@ -1,61 +1,54 @@
-# ỨNG DỤNG CÔNG NGHỆ WEB VÀO KINH DOANH ĐỒNG HỒ ROLEX TRỰC TUYẾN
+# Rolex Boutique
 
-## 1. Thông tin chung
-- **Tên đề tài:** Ứng dụng công nghệ web vào kinh doanh đồng hồ Rolex trực tuyến
-- **Sinh viên thực hiện:** Vũ Nhật Tuấn Anh
-- **Mã số sinh viên:** 523100132
-- **Mục tiêu đồ án:** Xây dựng một hệ thống thương mại điện tử chuyên biệt phục vụ việc trưng bày, kinh doanh và quản lý bán hàng sản phẩm đồng hồ cao cấp Rolex trực tuyến; tối ưu trải nghiệm người dùng và quy trình vận hành cửa hàng.
+Rolex Boutique uses Express and MongoDB for the application backend. The customer storefront and order history use server-rendered EJS; the admin dashboard is a React/Vite SPA served at `/admin` in production. Both interfaces use the same MongoDB records and session-authenticated Express APIs.
 
----
+## Requirements
 
-## 2. Phạm vi nghiên cứu & Phân quyền người dùng
+- Node.js 20.19+ or 22.12+
+- MongoDB
+- Copy `.env.example` to `.env` and set `MONGODB_URI` and a private `SESSION_SECRET`
+- For a new database, optionally set `BOOTSTRAP_ADMIN_USERNAME` and `BOOTSTRAP_ADMIN_PASSWORD` for the first startup; no default admin password is created
 
-### 2.1. Phân loại người dùng (User Roles)
-1. **Khách vãng lai (Guest):** Người truy cập chưa đăng nhập/chưa có tài khoản.
-2. **Khách hàng tiềm năng / Đã đăng ký (Registered Customer):** Người dùng có tài khoản trên hệ thống.
-3. **Quản trị viên (Admin):** Ban quản lý cửa hàng kinh doanh đồng hồ.
+## Run
 
-### 2.2. Chi tiết phạm vi chức năng
+```bash
+npm install
+npm start
+```
 
-#### A. Phía Khách vãng lai (Guest)
-- Xem danh sách đồng hồ.
-- Xem thông tin chi tiết đồng hồ.
-- Tìm kiếm sản phẩm theo từ khóa, thương hiệu.
-- Xem danh mục sản phẩm và lọc sản phẩm theo danh mục.
-- Xem đánh giá / nhận xét của sản phẩm.
-- Chat hỗ trợ với bộ phận Chăm sóc khách hàng (CSKH).
-- Đăng ký / Đăng nhập tài khoản.
+`npm start` builds the React admin and starts Express on `PORT` (default `3000`). For development, run `npm run server:dev` and `npm run dev` in separate terminals. Vite proxies `/api` requests to Express at port `3000`.
 
-#### B. Phía Khách hàng tiềm năng (Registered Customer)
-- Tất cả các chức năng của Khách vãng lai.
-- Quản lý và xem giỏ hàng.
-- Thực hiện quy trình mua hàng và thanh toán trực tuyến.
-- Theo dõi đơn hàng đã đặt.
+## Build
 
-#### C. Phía Quản trị viên (Admin)
-- Đăng nhập hệ thống quản trị.
-- **Quản lý sản phẩm:** Thêm, sửa, xóa, cập nhật trạng thái sản phẩm đồng hồ.
-- **Quản lý danh mục:** Quản lý các phân loại sản phẩm.
-- **Quản lý tài khoản:** Quản lý thông tin khách hàng và người dùng.
-- **Quản lý đơn hàng:** Duyệt đơn, cập nhật trạng thái vận hành đơn hàng.
-- **Quản lý doanh thu & Hóa đơn:** Xuất và in hóa đơn bán hàng trực tiếp.
-- **Thống kê & Báo cáo:** Theo dõi tình hình kinh doanh qua biểu đồ.
+```bash
+npm run build
+```
 
----
+The build runs TypeScript checking and creates the React app under `dist/`. The production Express server serves this build at `/admin`.
 
-## 3. Đặc tả Luồng vào / Ra chính (Input / Output Specs)
+## Frontend Routes
 
-| Chức năng | Đầu vào (Input) | Đầu ra (Output) |
-| :--- | :--- | :--- |
-| **Tìm kiếm sản phẩm** | Từ khóa tìm kiếm, Thương hiệu / Danh mục | Danh sách các sản phẩm đồng hồ tương ứng |
-| **Đặt hàng & Thanh toán** | Thông tin giao hàng, Phương thức thanh toán | Mã đơn hàng xác nhận, Email hóa đơn giao dịch |
-| **Quản lý sản phẩm** | Tên sản phẩm, Mã sản phẩm, Danh mục, Giá, Hình ảnh | Thông tin sản phẩm được cập nhật và hiển thị trên web |
-| **Thống kê báo cáo** | Khoảng thời gian (Từ ngày... Đến ngày...) | Biểu đồ doanh thu & báo cáo chi tiết |
+- Customer EJS: `/`, `/sanphammoi`, `/sanphammoi/:id`, `/dichvu`, `/chamsockhachhang`, `/form`, `/dangnhap`, `/thanhtoan`, `/don-hang`
+- Legacy EJS administration: `/quanli`, `/quanli/hoadon`, `/quanli/them-san-pham`, `/quanli/them-tai-khoan`
+- React administration: `/admin/dashboard`, `/admin/products`, `/admin/categories`, `/admin/orders`, `/admin/customers`, `/admin/analytics`, `/admin/messages`, `/admin/settings`
 
----
+## API
 
-## 4. Công nghệ dự kiến sử dụng (Tech Stack)
+- Session: `GET /api/auth/check`, `POST /api/auth/login`, `POST /api/auth/logout`
+- Catalog: `GET /api/products`, `GET /api/products/:id`
+- Product administration: `GET /api/admin/products`, `POST /api/products`, `PUT /api/products/:id`, `DELETE /api/products/:id`
+- Orders: `POST /api/orders`, `GET /api/orders`, `GET /api/orders/:id`, `PATCH /api/orders/:id/status`
+- Admin data: `GET /api/admin/categories`, `GET /api/admin/customers`, `GET /api/admin/statistics?days=30`, `GET /api/accounts`
+- Account administration: `POST /api/accounts`, `PUT /api/accounts/:username`, `DELETE /api/accounts/:username`
+- Customer chat: `GET /api/chat/messages`, `POST /api/chat/messages`
+- Admin chat: `GET /api/admin/chat/conversations`, `GET /api/admin/chat/:username`, `POST /api/admin/chat/:username`
 
-- **Frontend:** HTML5, CSS3, JavaScript (ES6+)
-- **Backend:** Node.js, PHP
-- **Database:** MongoDB.
+## MongoDB Models
+
+`User`, `Product`, `Order`, `Registration`, and `ChatMessage`. Product collection groups are currently the existing `classic`, `luxury`, `diving`, and `sport` values; the React category screen reports these groups from actual products.
+
+## Deployment
+
+Vercel configuration is in `vercel.json`; configure `MONGODB_URI`, `SESSION_SECRET`, and `NODE_ENV=production` in the deployment environment. Set bootstrap admin credentials only for the initial deployment to an empty database, then remove them. Do not deploy a local `.env` file.
+
+Stock is decremented atomically per SKU when an order is accepted and restored when an eligible order is cancelled/rejected. Multi-product checkout uses compensating rollback because a standalone local MongoDB does not support multi-document transactions. The current `vnpay`/QR, bank, and COD options are order labels only; no payment provider callback is integrated, so the app cannot verify external payment settlement.
