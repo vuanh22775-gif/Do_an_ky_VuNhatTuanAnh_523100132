@@ -144,11 +144,12 @@ function renderProducts() {
             <article class="product-card">
                     ${item.image ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.name)}">` : `<div class="product-image-placeholder">Ảnh mẫu sẽ sớm được cập nhật</div>`}
                 <div class="card-content">
-                    <h3><a href="/sanphammoi/${encodeURIComponent(item.id)}">${escapeHtml(item.name)}</a></h3>
+                    <h3>${escapeHtml(item.name)}</h3>
                     <p>${escapeHtml(item.model)}</p>
                     <p class="ref">Ref: ${escapeHtml(item.id)}</p>
                     <p class="price">${formatVnd(item.price)}</p>
                     <p class="stock-status ${Number(item.stock) > 0 ? '' : 'is-empty'}">${Number(item.stock) > 0 ? `Còn ${item.stock} chiếc` : 'Hết hàng'}</p>
+                    <a class="detail-btn" href="/sanphammoi/${encodeURIComponent(item.id)}">Xem chi tiết</a>
                     <button class="add-btn" data-id="${escapeHtml(item.id)}" ${Number(item.stock) > 0 ? '' : 'disabled'}>${Number(item.stock) > 0 ? 'Thêm vào giỏ' : 'Hết hàng'}</button>
                 </div>
             </article>
