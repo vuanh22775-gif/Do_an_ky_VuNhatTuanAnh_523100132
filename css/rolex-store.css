@@ -328,7 +328,13 @@ body:not(.page-lux) .product-card {
     display: block;
 }
 
-.card-content { padding: 18px 16px; display: grid; gap: 6px; }
+.card-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 6px;
+    padding: 18px 16px;
+}
 
 .ref   { color: #999999; font-size: 0.8rem; letter-spacing: 0.04em; }
 .price {
@@ -339,6 +345,27 @@ body:not(.page-lux) .product-card {
 }
 
 body:not(.page-lux) .price { color: #7ecba8; }
+
+.detail-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    border: 1px solid #006039;
+    background: #ffffff;
+    color: #006039;
+    padding: 10px 14px;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background 0.2s, color 0.2s;
+    margin-top: auto;
+}
+.detail-btn:hover,
+.detail-btn:focus-visible { background: #006039; color: #ffffff; }
 
 .add-btn {
     border: none;
